@@ -1,0 +1,12 @@
+{
+    "service": {
+        "port": 4000
+    },
+    "database": {
+        "host": "localhost",
+        "user": "root",
+        "password": "mypassword",
+        "name": "testdb",
+        "dialect": "mysql"
+    }
+}
