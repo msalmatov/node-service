@@ -16,11 +16,13 @@ export function generateRefreshToken(user: UserInfo) {
 }
 
 export function verifyAccessToken(accessToken: string) {
-    jwt.verify(accessToken, config.auth.secret);
+    const data = jwt.verify(accessToken, config.auth.secret) as UserInfo;
+    return { id: data.id, username: data.username };
 }
 
-export function verifyRefreshToken(refreshToken: string) {
-    jwt.verify(refreshToken, config.auth.refreshSecret);
+export function verifyRefreshToken(refreshToken: string): UserInfo {
+    const data = jwt.verify(refreshToken, config.auth.refreshSecret) as UserInfo;
+    return { id: data.id, username: data.username };
 }
 
 export function authN() {
