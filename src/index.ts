@@ -1,17 +1,13 @@
 import app from "./app";
-import { sequelize } from "./db";
+import dbInit from "./db/init";
 
 async function init() {
-    sequelize.sync()
-        .then(() => console.log("Synced DB"))
-        .catch((err) => console.log("DB sync failed:", err.message));
-    // await sequelize.authenticate();
+    await dbInit();
 }
 
 init().then(() => {
     app.listen(app.get("port"), () => {
         console.log("App is running at http://localhost:%d in %s mode", app.get("port"), app.get("env"));
-
     });
 }).catch(err => {
     console.log(err);
