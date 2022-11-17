@@ -1,10 +1,13 @@
 import express from "express";
+import cors from "cors";
 import config from "./config";
 // import routes from "./routes";
 
 const app = express();
 
 app.set("port", process.env.PORT || config.service.port);
+
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(express.json());
