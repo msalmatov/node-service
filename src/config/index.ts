@@ -10,6 +10,12 @@ type Config = {
         password: string,
         name: string,
         dialect: string
+    },
+    auth: {
+        secret: string,
+        expiresIn: string,
+        refreshSecret: string,
+        refreshExpiresIn: string
     }
 }
 

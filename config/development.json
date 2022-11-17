@@ -1,12 +1,18 @@
 {
-    "service": {
-        "port": 4000
-    },
-    "database": {
-        "host": "localhost",
-        "user": "root",
-        "password": "mypassword",
-        "name": "testdb",
-        "dialect": "mysql"
-    }
+  "service": {
+    "port": 4000
+  },
+  "database": {
+    "host": "localhost",
+    "user": "root",
+    "password": "mypassword",
+    "name": "testdb",
+    "dialect": "mysql"
+  },
+  "auth": {
+    "secret": "5jh51p0z9nf7dl6a5s6f",
+    "expiresIn": "10m",
+    "refreshSecret": "5jh51p0z9nf7dl6a5764",
+    "refreshExpiresIn": "10d"
+  }
 }
