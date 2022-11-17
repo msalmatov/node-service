@@ -6,8 +6,8 @@ const dbInit = async () => {
     await createDb();
 
     await Promise.all([
-        User.sync({ alter: true }),
-        File.sync({ alter: true })
+        User.sync(/*{ alter: true }*/),
+        File.sync(/*{ alter: true }*/)
     ]);
 }
 
