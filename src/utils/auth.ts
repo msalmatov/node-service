@@ -26,6 +26,7 @@ export function verifyRefreshToken(refreshToken: string): UserInfo {
 }
 
 export function authN() {
+    // TODO: check for refresh token exists
     return expressjwt({
         secret: config.auth.secret,
         algorithms: ["HS256"]
