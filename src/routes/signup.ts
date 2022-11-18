@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { generateAccessToken, generateRefreshToken } from "../utils/auth";
 import * as userService from "../db/services/user-service";
+import * as Password from "../utils/password";
 
 export default async function signup(req: Request, res: Response, next: NextFunction) {
     try {
@@ -15,8 +16,8 @@ export default async function signup(req: Request, res: Response, next: NextFunc
             throw new Error("User already exists");
         }
 
-        // TODO: hash password
-        user = await userService.create({username, password});
+        const hash = await Password.getHash(password);
+        user = await userService.create({username, password: hash});
 
         const token = generateAccessToken({ id: user.id, username: user.username });
         const refreshToken = generateRefreshToken({ id: user.id, username: user.username });

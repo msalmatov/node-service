@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { generateAccessToken, generateRefreshToken } from "../utils/auth";
 import * as userService from "../db/services/user-service";
+import * as Password from "../utils/password";
 
 export default async function signin(req: Request, res: Response, next: NextFunction) {
     try {
@@ -15,8 +16,7 @@ export default async function signin(req: Request, res: Response, next: NextFunc
             throw new Error("User not exists");
         }
 
-        // TODO: check password hashes
-        if (password !== user.password) {
+        if (!await Password.compare(password, user.password)) {
             throw new Error("Incorrect password");
         }
 
