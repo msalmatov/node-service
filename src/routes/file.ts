@@ -1,6 +1,7 @@
 import express from "express";
-import uploadRouter from "./file/upload";
 import fileUpload from "express-fileupload";
+import uploadRouter from "./file/upload";
+import listRouter from "./file/list";
 
 const router = express.Router();
 
@@ -12,10 +13,10 @@ const opt = {
 }
 
 router.post("/upload", fileUpload(opt), uploadRouter);
-router.get("/list");
-router.delete("/delete/:id");
+router.get("/list", listRouter);
 router.get("/:id");
 router.get("/download/:id");
 router.put("/update/:id", fileUpload(opt));
+router.delete("/delete/:id");
 
 export default router;

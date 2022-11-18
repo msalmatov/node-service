@@ -8,8 +8,8 @@ export const create = (payload: FileInput) => {
 export const getAllByUser = (user_id: number, page = 1, listSize = 10) => {
     return File.findAll({
         where: { user_id: user_id },
-        limit: listSize,
-        offset: (page - 1) * listSize
+        offset: (page - 1) * listSize,
+        limit: listSize
     })
 }
 
