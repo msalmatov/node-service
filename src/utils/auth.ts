@@ -1,11 +1,7 @@
 import jwt from "jsonwebtoken";
 import { expressjwt } from "express-jwt";
 import config from "../config";
-
-export type UserInfo = {
-    id: number,
-    username: string
-}
+import { UserInfo } from "./common-types";
 
 export function generateAccessToken(user: UserInfo) {
     return jwt.sign(user, config.auth.secret, { expiresIn: config.auth.expiresIn });
@@ -26,7 +22,6 @@ export function verifyRefreshToken(refreshToken: string): UserInfo {
 }
 
 export function authN() {
-    // TODO: check for refresh token exists
     return expressjwt({
         secret: config.auth.secret,
         algorithms: ["HS256"]
