@@ -4,6 +4,7 @@ import uploadRouter from "./file/upload";
 import listRouter from "./file/list";
 import infoRouter from "./file/info";
 import downloadRouter from "./file/download";
+import updateRouter from "./file/update";
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.post("/upload", fileUpload(opt), uploadRouter);
 router.get("/list", listRouter);
 router.get("/:id", infoRouter);
 router.get("/download/:id", downloadRouter);
-router.put("/update/:id", fileUpload(opt));
+router.put("/update/:id", fileUpload(opt), updateRouter);
 router.delete("/delete/:id");
 
 export default router;

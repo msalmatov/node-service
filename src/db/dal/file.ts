@@ -17,10 +17,11 @@ export const getById = (id: number) => {
     return File.findByPk(id);
 }
 
-export const updateById = (id: number, payload: FileInput) => {
-    return File.update(payload, {
+export const updateById = async (id: number, payload: FileInput) => {
+    const [affectedCount] = await File.update(payload, {
         where: { id }
     });
+    return affectedCount;
 }
 
 export const deleteById = (id: number) => {
