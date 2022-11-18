@@ -1,19 +1,22 @@
 import { NextFunction, Request, Response } from "express";
 import { generateAccessToken, verifyRefreshToken } from "../utils/auth";
+import * as userService from "../db/services/user-service";
 
 export default async function newToken(req: Request, res: Response, next: NextFunction) {
     try {
         const { refreshToken } = req.body;
         if (!refreshToken) {
-            throw Error("Refresh token not specified");
+            throw new Error("Refresh token not specified");
         }
 
         const userInfo = verifyRefreshToken(refreshToken);
 
-        // TODO: get user from DB
+        const user = await userService.getById(userInfo.id);
+        if (!user) {
+            throw new Error("User not found");
+        }
 
-        // TODO: put ids from User after saving to DB
-        const token = generateAccessToken({ id: userInfo.id, username: userInfo.username });
+        const token = generateAccessToken({ id: user.id, username: user.username });
 
         return res.status(200).send({
             token,

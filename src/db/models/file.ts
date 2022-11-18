@@ -15,13 +15,13 @@ interface FileAttributes {
     updatedAt?: Date;
 }
 
-export interface UserInput extends Optional<FileAttributes, 'id'> {
+export interface FileInput extends Optional<FileAttributes, 'id'> {
 };
 
-export interface UserOutput extends Required<FileAttributes> {
+export interface FileOutput extends Required<FileAttributes> {
 };
 
-class File extends Model<FileAttributes, UserInput> implements FileAttributes {
+class File extends Model<FileAttributes, FileInput> implements FileAttributes {
     public id!: number;
     public user_id!: number;
     public name!: string;

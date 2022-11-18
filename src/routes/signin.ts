@@ -1,18 +1,27 @@
 import { NextFunction, Request, Response } from "express";
 import { generateAccessToken, generateRefreshToken } from "../utils/auth";
+import * as userService from "../db/services/user-service";
 
 export default async function signin(req: Request, res: Response, next: NextFunction) {
     try {
         // TODO: add better validation
-        if (!req.body.id || !req.body.password) {
-            throw Error("Invalid user credentials");
+        const {id: username, password} = req.body;
+        if (!username || !password) {
+            throw new Error("Invalid user credentials");
         }
 
-        // TODO: check if user exists and password match
+        const user = await userService.getByUsername(username);
+        if (!user) {
+            throw new Error("User not exists");
+        }
 
-        // TODO: put ids from User after saving to DB
-        const token = generateAccessToken({ id: 111, username: req.body.id });
-        const refreshToken = generateRefreshToken({ id: 111, username: req.body.id });
+        // TODO: check password hashes
+        if (password !== user.password) {
+            throw new Error("Incorrect password");
+        }
+
+        const token = generateAccessToken({ id: user.id, username: user.username });
+        const refreshToken = generateRefreshToken({ id: user.id, username: user.username });
 
         return res.status(200).send({
             token,
