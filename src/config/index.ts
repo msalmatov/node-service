@@ -16,6 +16,10 @@ type Config = {
         expiresIn: string,
         refreshSecret: string,
         refreshExpiresIn: string
+    },
+    files: {
+        filesDir: string,
+        tempFilesDir: string
     }
 }
 

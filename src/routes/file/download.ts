@@ -4,6 +4,7 @@ import path from "path";
 import { access, constants } from "fs/promises";
 import * as fileService from "../../db/services/file-service";
 import Errors from "../../utils/errors";
+import config from "../../config";
 
 export default async function download(req: Request, res: Response, next: NextFunction) {
     try {
@@ -17,7 +18,7 @@ export default async function download(req: Request, res: Response, next: NextFu
             throw Errors.fileNotFound();
         }
 
-        const filePath = path.join("files", file.id.toString());
+        const filePath = path.join(config.files.filesDir, file.id.toString());
         const filename = `${file.name}.${file.extension}`;
 
         // check if file exists in system

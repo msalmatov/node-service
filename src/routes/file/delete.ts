@@ -4,6 +4,7 @@ import fs from "fs/promises";
 import path from "path";
 import * as fileService from "../../db/services/file-service";
 import Errors from "../../utils/errors";
+import config from "../../config";
 
 export default async function deleteFile(req: Request, res: Response, next: NextFunction) {
     try {
@@ -17,7 +18,7 @@ export default async function deleteFile(req: Request, res: Response, next: Next
             throw Errors.fileNotFound();
         }
 
-        const filePath = path.join("files", file.id.toString());
+        const filePath = path.join(config.files.filesDir, file.id.toString());
         await fs.rm(filePath);
         await fileService.deleteById(file.id);
 

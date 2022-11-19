@@ -6,6 +6,7 @@ import infoRouter from "./file/info";
 import downloadRouter from "./file/download";
 import updateRouter from "./file/update";
 import deleteRouter from "./file/delete";
+import config from "../config";
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ const opt = {
     createParentPath: true,
     limits: { files: 1 },
     useTempFiles: true,
-    tempFileDir: "files_tmp/"
+    tempFileDir: config.files.tempFilesDir
 }
 
 router.post("/upload", fileUpload(opt), uploadRouter);

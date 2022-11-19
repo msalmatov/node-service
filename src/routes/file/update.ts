@@ -5,6 +5,7 @@ import { UploadedFile } from "express-fileupload";
 import * as fileService from "../../db/services/file-service";
 import { FileInput } from "../../db/models/file";
 import Errors from "../../utils/errors";
+import config from "../../config";
 
 export default async function update(req: Request, res: Response, next: NextFunction) {
     try {
@@ -36,7 +37,7 @@ export default async function update(req: Request, res: Response, next: NextFunc
 
         await fileService.updateById(fileId, file);
 
-        const filePath = path.join("files", file.id.toString());
+        const filePath = path.join(config.files.filesDir, file.id.toString());
         fileInfo.mv(filePath, function (err) {
             if (err) {
                 throw new Error(err);

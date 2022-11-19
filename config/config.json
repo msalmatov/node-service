@@ -14,5 +14,9 @@
     "expiresIn": "10m",
     "refreshSecret": "5jh51p0z9nf7dl6a5764",
     "refreshExpiresIn": "10d"
+  },
+  "files": {
+    "filesDir": "files",
+    "tempFilesDir": "files_temp"
   }
 }

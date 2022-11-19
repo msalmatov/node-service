@@ -4,6 +4,7 @@ import path from "path";
 import { UploadedFile } from "express-fileupload";
 import * as fileService from "../../db/services/file-service";
 import Errors from "../../utils/errors";
+import config from "../../config";
 
 export default async function upload(req: Request, res: Response, next: NextFunction) {
     try {
@@ -27,7 +28,7 @@ export default async function upload(req: Request, res: Response, next: NextFunc
             date_upload: new Date()
         });
 
-        const filePath = path.join("files", file.id.toString());
+        const filePath = path.join(config.files.filesDir, file.id.toString());
         fileInfo.mv(filePath, function (err) {
             if (err) {
                 return next(err);
