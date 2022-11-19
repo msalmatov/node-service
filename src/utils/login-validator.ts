@@ -1,16 +1,25 @@
-import { validate, ValidationError, Joi } from 'express-validation';
+import { Joi, validate } from 'express-validation';
 
-const loginValidation = {
-    body: Joi.object({
+let extJoi = Joi.extend(require('joi-phone-number'));
+extJoi = extJoi.extend(require('joi-password').joiPasswordExtendCore);
 
-        id: Joi.alternatives().try(
-            Joi.string().email(),
-            Joi.string().regex(/[0-9]{3,30}/)
-        ),
+export const loginValidation = {
+    body: extJoi.object({
+        id: extJoi.alternatives().try(
+            extJoi.string().email(),
+            extJoi.string().phoneNumber()
+        ).required(),
+        password: extJoi
+            .string()
+            .minOfSpecialCharacters(1)
+            .minOfLowercase(1)
+            .minOfUppercase(1)
+            .minOfNumeric(1)
+            .noWhiteSpaces()
+            .required()
+    })
+}
 
-
-        password: Joi.string()
-            .regex(/[a-zA-Z0-9]{3,30}/)
-            .required(),
-    }),
+export function validateLogin() {
+    return validate(loginValidation, { keyByField: true });
 }

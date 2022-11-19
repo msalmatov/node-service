@@ -37,8 +37,8 @@ describe("App", function () {
         }
         it("should create user with valid params", async function () {
             const res = await req({
-                id: "anotheruser3",
-                password: "mypass"
+                id: "user@gmail.com",
+                password: "Mypass2_"
             });
 
             expect(res.status).toEqual(200);
@@ -46,17 +46,36 @@ describe("App", function () {
             expect(res.body.token.length).toBeGreaterThan(0);
             expect(res.body.refreshToken).toEqual(expect.any(String));
             expect(res.body.refreshToken.length).toBeGreaterThan(0);
+            const user = await userService.getByUsername("user@gmail.com")
+            expect(user).toBeDefined();
+            expect(user.id).toEqual(1);
         });
         it("should return error with missing password", async function () {
             const res = await req({
-                id: "anotheruser3"
+                id: "user@gmail.com"
+            });
+
+            expect(res.status).toEqual(400);
+        });
+        it("should return error with invalid password", async function () {
+            const res = await req({
+                id: "user@gmail.com",
+                password: "asdfasdf"
             });
 
             expect(res.status).toEqual(400);
         });
         it("should return error with missing id", async function () {
             const res = await req({
-                password: "asdfasdf"
+                password: "Mypass2_"
+            });
+
+            expect(res.status).toEqual(400);
+        });
+        it("should return error for invalid email", async function () {
+            const res = await req({
+                id: "username",
+                password: "Mypass2_"
             });
 
             expect(res.status).toEqual(400);
@@ -72,11 +91,11 @@ describe("App", function () {
         }
 
         it("should create user with valid params", async function () {
-            await createUser("anotheruser3", "mypass");
+            await createUser("user@gmail.com", "Mypass2_");
 
             const res = await req({
-                id: "anotheruser3",
-                password: "mypass"
+                id: "user@gmail.com",
+                password: "Mypass2_"
             });
 
             expect(res.status).toEqual(200);
@@ -88,7 +107,7 @@ describe("App", function () {
 
         it("should return error with missing password", async function () {
             const res = await req({
-                id: "anotheruser3"
+                id: "user@gmail.com"
             });
 
             expect(res.status).toEqual(400);
@@ -96,33 +115,52 @@ describe("App", function () {
 
         it("should return error if user not found", async function () {
             const res = await req({
-                id: "anotheruser3",
-                password: "mypass"
+                id: "user@gmail.com",
+                password: "Mypass2_"
             });
 
             expect(res.status).toEqual(404);
         });
 
         it("should return error if credentials are invalid", async function () {
-            await createUser("anotheruser3", "mypass");
+            await createUser("user@gmail.com", "Mypass2_");
 
             const res = await req({
-                id: "anotheruser3",
-                password: "mypa"
+                id: "user@gmail.com",
+                password: "Mypass3_"
             });
 
             expect(res.status).toEqual(401);
             expect(res.body).toMatchObject({
-                error: "Invalid password"
+                errors: ["Invalid password"]
             });
         });
 
         it("should return error with missing id", async function () {
             const res = await req({
-                password: "asdfasdf"
+                password: "Mypass2_"
             });
 
             expect(res.status).toEqual(400);
         });
+    });
+
+    describe("File upload", function () {
+        it.todo("File upload tests will be here");
+    });
+    describe("File list", function () {
+        it.todo("File list tests will be here");
+    });
+    describe("File info", function () {
+        it.todo("File info tests will be here");
+    });
+    describe("File download", function () {
+        it.todo("File download tests will be here");
+    });
+    describe("File update", function () {
+        it.todo("File update tests will be here");
+    });
+    describe("File delete", function () {
+        it.todo("File delete tests will be here");
     });
 });

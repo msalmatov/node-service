@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { ValidationError } from "express-validation";
 
 export default function errorHandler(err: any, req: Request, res: Response, next: NextFunction) {
     console.log(err);
@@ -7,5 +8,10 @@ export default function errorHandler(err: any, req: Request, res: Response, next
         res.status(err.status);
     }
 
-    res.send({error: err.message});
+    if (err instanceof ValidationError) {
+        res.status(err.statusCode);
+        res.send({errors: err.details});
+    } else {
+        res.send({errors: [err.message]});
+    }
 }

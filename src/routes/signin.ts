@@ -7,11 +7,7 @@ import Errors from "../utils/errors";
 
 export default async function signin(req: Request, res: Response, next: NextFunction) {
     try {
-        // TODO: add better validation (joi)
         const { id: username, password } = req.body;
-        if (!username || !password) {
-            throw Errors.invalidCredentialsErr();
-        }
 
         const user = await userService.getByUsername(username);
         if (!user) {
