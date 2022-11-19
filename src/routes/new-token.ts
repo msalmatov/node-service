@@ -2,19 +2,20 @@ import { NextFunction, Request, Response } from "express";
 import { generateAccessToken, verifyRefreshToken } from "../utils/auth";
 import * as userService from "../db/services/user-service";
 import tokenContainer from "../utils/token-container";
+import Errors from "../utils/errors";
 
 export default async function newToken(req: Request, res: Response, next: NextFunction) {
     try {
         const { refreshToken } = req.body;
         if (!refreshToken) {
-            throw new Error("Refresh token not specified");
+            throw Errors.refreshTokenNotSpecifiedErr();
         }
 
         const userInfo = verifyRefreshToken(refreshToken);
 
         const user = await userService.getById(userInfo.id);
         if (!user) {
-            throw new Error("User not found");
+            throw Errors.userNotFoundErr();
         }
 
         const token = generateAccessToken({ id: user.id, username: user.username });

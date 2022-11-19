@@ -3,11 +3,12 @@ import { Request } from "express-jwt";
 import path from "path";
 import { UploadedFile } from "express-fileupload";
 import * as fileService from "../../db/services/file-service";
+import Errors from "../../utils/errors";
 
 export default async function upload(req: Request, res: Response, next: NextFunction) {
     try {
         if (!req.files || Object.keys(req.files).length === 0) {
-            throw new Error('No files were uploaded.');
+            throw Errors.fileNotUploadedErr();
         }
         const fileInfo = req.files["fileUpload"] as UploadedFile;
 

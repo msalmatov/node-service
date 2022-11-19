@@ -4,16 +4,17 @@ import path from "path";
 import { UploadedFile } from "express-fileupload";
 import * as fileService from "../../db/services/file-service";
 import { FileInput } from "../../db/models/file";
+import Errors from "../../utils/errors";
 
 export default async function update(req: Request, res: Response, next: NextFunction) {
     try {
         const fileId = req.params.id ? Number(req.params.id) : 0;
         if (!fileId) {
-            throw new Error("File id isn't specified");
+            throw Errors.invalidFileId();
         }
 
         if (!req.files || Object.keys(req.files).length === 0) {
-            throw new Error('No files were uploaded.');
+            throw Errors.fileNotUploadedErr();
         }
         const fileInfo = req.files["fileUpload"] as UploadedFile;
 

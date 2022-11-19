@@ -3,22 +3,23 @@ import { generateAccessToken, generateRefreshToken } from "../utils/auth";
 import * as userService from "../db/services/user-service";
 import * as Password from "../utils/password";
 import tokenContainer from "../utils/token-container";
+import Errors from "../utils/errors";
 
 export default async function signin(req: Request, res: Response, next: NextFunction) {
     try {
         // TODO: add better validation (joi)
         const { id: username, password } = req.body;
         if (!username || !password) {
-            throw new Error("Invalid user credentials");
+            throw Errors.invalidCredentialsErr();
         }
 
         const user = await userService.getByUsername(username);
         if (!user) {
-            throw new Error("User not exists");
+            throw Errors.userNotFoundErr();
         }
 
         if (!await Password.compare(password, user.password)) {
-            throw new Error("Incorrect password");
+            throw Errors.invalidPasswordErr();
         }
 
         const token = generateAccessToken({ id: user.id, username: user.username });

@@ -3,18 +3,19 @@ import { generateAccessToken, generateRefreshToken } from "../utils/auth";
 import * as userService from "../db/services/user-service";
 import * as Password from "../utils/password";
 import tokenContainer from "../utils/token-container";
+import Errors from "../utils/errors";
 
 export default async function signup(req: Request, res: Response, next: NextFunction) {
     try {
         // TODO: add better validation (joi)
         const { id: username, password } = req.body;
         if (!username || !password) {
-            throw new Error("Invalid user credentials");
+            throw Errors.invalidCredentialsErr();
         }
 
         let user = await userService.getByUsername(username);
         if (user) {
-            throw new Error("User already exists");
+            throw Errors.userAlreadyExistsErr();
         }
 
         const hash = await Password.getHash(password);

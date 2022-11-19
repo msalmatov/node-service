@@ -1,19 +1,20 @@
 import { Request } from "express-jwt";
 import { NextFunction, Response } from "express";
+import path from "path";
 import { access, constants } from "fs/promises";
 import * as fileService from "../../db/services/file-service";
-import path from "path";
+import Errors from "../../utils/errors";
 
 export default async function download(req: Request, res: Response, next: NextFunction) {
     try {
         const fileId = req.params.id;
         if (!fileId) {
-            throw new Error("File id isn't specified");
+            throw Errors.invalidFileId();
         }
 
         const file = await fileService.getById(Number(fileId));
         if (!file) {
-            throw new Error("File with specified id not found");
+            throw Errors.fileNotFound();
         }
 
         const filePath = path.join("files", file.id.toString());
