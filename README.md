@@ -14,6 +14,10 @@
 
 ## Endpoints
 
+id - email or phone number
+
+password - Must have at least one upper case letter, one lower case letter, one number and one special character 
+
 ### Signup new user
 
 Sample request:
@@ -22,8 +26,8 @@ Sample request:
 curl -L -X POST 'localhost:4000/signup' \
 -H 'Content-Type: application/json' \
 --data-raw '{
-    "id": "anotheruser",
-    "password": "mypass"
+    "id": "user@gmail.com",
+    "password": "Mypass2_"
 }'
 ```
 
@@ -44,8 +48,8 @@ Sample request:
 curl -L -X POST 'localhost:4000/signin' \
 -H 'Content-Type: application/json' \
 --data-raw '{
-    "id": "anotheruser",
-    "password": "mypass"
+    "id": "user@gmail.com",
+    "password": "Mypass2_"
 }'
 ```
 
@@ -107,7 +111,7 @@ Sample response on success:
 
 ```json
 {
-    "id": "anotheruser"
+    "id": "user@gmail.com"
 }
 ```
 
