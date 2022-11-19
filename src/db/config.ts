@@ -17,6 +17,7 @@ async function createDb() {
     const {host, user, password, name} = config.database;
     const connection = await mysql.createConnection({ host, user, password });
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${name}\`;`);
+    await connection.end();
 }
 
 export { sequelize, createDb };

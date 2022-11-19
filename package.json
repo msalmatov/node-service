@@ -8,7 +8,7 @@
     "dev": "nodemon -x ts-node src/index.ts",
     "build": "tsc -p .",
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
-    "test": "cross-env NODE_ENV=test jest"
+    "test": "cross-env NODE_ENV=test jest --detectOpenHandles"
   },
   "repository": {
     "type": "git",
