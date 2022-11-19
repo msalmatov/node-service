@@ -5,6 +5,7 @@ import listRouter from "./file/list";
 import infoRouter from "./file/info";
 import downloadRouter from "./file/download";
 import updateRouter from "./file/update";
+import deleteRouter from "./file/delete";
 
 const router = express.Router();
 
@@ -20,6 +21,6 @@ router.get("/list", listRouter);
 router.get("/:id", infoRouter);
 router.get("/download/:id", downloadRouter);
 router.put("/update/:id", fileUpload(opt), updateRouter);
-router.delete("/delete/:id");
+router.delete("/delete/:id", deleteRouter);
 
 export default router;
